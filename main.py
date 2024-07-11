@@ -32,35 +32,17 @@ def context_menu_callback(sender, app_data):
 
 def save_callback(sender, app_data):
     file_path = app_data["file_path_name"]
-    dpg.show_item('save_dialog_id')
-    
-    saving_list_proxy = None
-    saving_list_combo = None
-
     if dpg.is_item_shown("proxy_list"):
-        saving_list_proxy = dpg.get_item_configuration("proxy_list")["items"]
-    
+        proxy_list = dpg.get_item_configuration('proxy_list')["items"]
+        Text_Edit.save_txt(file_path, proxy_list)
     if dpg.is_item_shown("combo_list"):
-        saving_list_combo = dpg.get_item_configuration("combo_list")["items"]
-
-    if saving_list_proxy is not None:
-        proxy_file_path = f"{file_path}_proxy.txt"  # Append suffix to file path
-        if Text_Edit.save_txt(proxy_file_path, saving_list_proxy):
-            print(f"Proxy list saved to: {proxy_file_path}")
-        else:
-            print("Failed to save the proxy list.")
-
-    if saving_list_combo is not None:
-        combo_file_path = f"{file_path}_combo.txt"  # Append suffix to file path
-        if Text_Edit.save_txt(combo_file_path, saving_list_combo):
-            print(f"Combo list saved to: {combo_file_path}")
-        else:
-            print("Failed to save the combo list.")
-
-    # Hide the save dialog after saving
-    dpg.hide_item('save_dialog_id')
-
-
+        combo_list = dpg.get_item_configuration('combo_list')["items"]
+        Text_Edit.save_txt(file_path=file_path, combo_list)
+    if dpg.is_item_shown("proxy_list") and dpg.is_item_shown("combo_list"):
+        proxy_file_path = file_path.replace(".txt", "_proxy.txt")
+        combo_file_path = file_path.replace(".txt", "_combo.txt")
+        Text_Edit.save_txt(combo_file_path, combo_list)
+        Text_Edit.save_txt(proxy_file_path, proxy_list)
 
 def callback_scrape(sender, app_data):
     dpg.configure_item("proxy_list", items=[])
@@ -92,11 +74,11 @@ def callback_check(sender, app_data):
     prots = dpg.get_value('protocols_inp_txt')
     timeout = dpg.get_value('ctimeout_inp_int')
     proxies = dpg.get_item_configuration('proxy_list')["items"]
+    dpg.configure_item("proxy_scrape_window_id", label="ProxyChecker (COULD TAKE A WHILE)")
     checker = ProxyChecker()
     working_proxies, failed_proxies, errored_proxies = checker.check_proxy(prots, timeout, proxies)
     dpg.configure_item("proxy_list", label=f"Working Proxies: {len(working_proxies)}\nFailed Proxies: {len(failed_proxies)}\nErrored Proxies: {len(errored_proxies)}")
     dpg.configure_item("proxy_list", items=working_proxies)
-    dpg.configure_item("proxy_scrape_window_id", label="ProxyChecker (COULD TAKE A WHILE)")
 
 def font_selection_callback(sender, app_data):
     selected_font = dpg.get_value(sender)
@@ -112,7 +94,7 @@ def main():
     listbox_height = num_items * item_height
     
     with dpg.window(label="Proxy Scraper", width=600, height=300, no_resize=False, show=False, tag="proxy_scrape_window_id"):
-        dpg.add_listbox(items=["Proxyscrape", "All Free APIs"], label="Method", tag="proxyscrape_lb", width=150, num_items=2)
+        dpg.add_listbox(items=["Proxyscrape", "All"], label="Method", tag="proxyscrape_lb", width=150, num_items=2)
         dpg.add_listbox(items=[], label="Proxies", tag="proxy_list", pos=[250, 40], width=150, num_items=10)
         dpg.add_checkbox(label="SSL", tag="ssl_bool", pos=[200, 150])
         dpg.add_spacer()
@@ -129,7 +111,7 @@ def main():
         with dpg.viewport_menu_bar():
             with dpg.menu(label="General"):
                 dpg.add_menu_item(label="Open File..", callback=lambda: dpg.show_item("file_dialog_id"))
-                dpg.add_menu_item(label="Save..", callback=save_callback)
+                dpg.add_menu_item(label="Save..", callback=lambda: dpg.show_item("save_dialog_id"))
                 dpg.add_menu_item(label="Exit", callback=dpg.stop_dearpygui)
             with dpg.menu(label="Edit"):
                 dpg.add_menu_item(label="Delete Dupes", callback=del_dupes_callback)

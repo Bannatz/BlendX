@@ -20,6 +20,16 @@ class Text_Edit:
         except Exception as e:
             return [f"Error Loading File: {e}"]
 
+    def save_multiple_files(files: list, lines: list):
+        try:
+            for i, file_name in enumerate(files):
+                file_path = f"{file_name}.txt"  # Assuming file extension is txt
+                with open(file_path, 'w') as file:
+                    file.write(lines[i])
+            print("Files saved successfully.")
+        except IOError as e:
+            print(f"Error saving files: {e}")
+    
     def del_dupes(input_list):
         return list(dict.fromkeys(input_list))
     
