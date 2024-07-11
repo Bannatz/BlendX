@@ -69,9 +69,14 @@ def callback_scrape(sender, app_data):
     prots = dpg.get_value('protocols_inp_txt')
     ssl = dpg.get_value('ssl_bool')
     ps = ProxyScraper(method)
-    proxy_list = ps.proxy_scrape(timeout, prots, ssl)
-    dpg.configure_item("proxy_list", items=proxy_list)
-    dpg.configure_item("proxy_list", label=f"Proxies: {len(proxy_list)}")
+    if method == "Proxyscrape":
+        proxy_list = ps.proxy_scrape(timeout, prots, ssl)
+        dpg.configure_item("proxy_list", items=proxy_list)
+        dpg.configure_item("proxy_list", label=f"Proxies: {len(proxy_list)}")
+    if method == "All":
+        proxy_list = ps.all_apis("http", prots, "fast", 500)
+        dpg.configure_item("proxy_list", items=proxy_list)
+        dpg.configure_item("proxy_list", label=f"Proxies: {len(proxy_list)}")
 
 def del_dupes_callback(sender, app_data):
     lines = dpg.get_item_configuration("combo_list")["items"]
