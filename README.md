@@ -14,13 +14,13 @@ Then just run the `main.py` file.
 ### ProxyScraper:
 - Proxyscrape: BlendX includes support for Proxyscrape. It is in my Opinion one of the best Free Proxy Sites ive found. I could be wrong though!
 
-- All APIs Method: Scrape all **FREE** APIs that i could find! Feel free to add Your API to the list of apis in `proxyscraper.py`.
+- All APIs Method(Currently not implemented): Scrape all **FREE** APIs that i could find! Feel free to add Your API to the list of apis in `proxyscraper.py`.
 It should check if the respond is a json format or not. If your API sends data through json feel free to modify the Function.
 
 #### Side Note
 Paid APIs can be added but my focus is only in **free** APIs. I personally cant test Paid Services.
 
-### ProxyChecker(ALL API METHOD IS NOT IMPLEMENTED):
+### ProxyChecker:
 - Multithreaded Proxy Checker that checks if Proxy can connect to Google. Timeout, SSL Support and Protocol Type can be choosen if `Proxyscrape` method is used. I try to add it to `All APIs` Method.
 
 ### Combo Editor:
