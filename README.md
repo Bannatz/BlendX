@@ -1,5 +1,5 @@
 # BlendX
-BlendX is a versatile tool designed for crafting, managing user and email combos and includes a scraping Proxies. The Frontend is powered by DearPyGui.
+BlendX is a versatile tool designed for crafting, managing user and email combos and includes scraping and checking Proxies. The Frontend is powered by DearPyGui.
 # BIG DISCLAIMER
 **I do not condone any form of Criminal Activities with this Tool.**
 
