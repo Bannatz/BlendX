@@ -20,7 +20,7 @@ It should check if the respond is a json format or not. If your API sends data t
 #### Side Note
 Paid APIs can be added but my focus is only in **free** APIs. I personally cant test Paid Services.
 
-### ProxyChecker:
+### ProxyChecker(ALL API METHOD IS NOT IMPLEMENTED):
 - Multithreaded Proxy Checker that checks if Proxy can connect to Google. Timeout, SSL Support and Protocol Type can be choosen if `Proxyscrape` method is used. I try to add it to `All APIs` Method.
 
 ### Combo Editor:
@@ -31,7 +31,7 @@ Paid APIs can be added but my focus is only in **free** APIs. I personally cant 
 
 - Remove @ Prefix: Specifically remove the @ prefix from email entries for specialized use cases + Mail2User: Strip mail domains from a combo to gather a username
 
-### How to use the Google Dork Generator:
+### How to use the Google Dork Generator(CURRENTLY NOT IMPLEMENTED):
 <span style="color:red;">**ATTENTION**</span>
 
 **It should be said that Google Ratelimits because of that i need to make that request with a Proxy.
