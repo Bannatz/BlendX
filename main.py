@@ -37,7 +37,7 @@ def save_callback(sender, app_data):
         Text_Edit.save_txt(file_path, proxy_list)
     if dpg.is_item_shown("combo_list"):
         combo_list = dpg.get_item_configuration('combo_list')["items"]
-        Text_Edit.save_txt(file_path=file_path, combo_list)
+        Text_Edit.save_txt(file_path, combo_list)
     if dpg.is_item_shown("proxy_list") and dpg.is_item_shown("combo_list"):
         proxy_file_path = file_path.replace(".txt", "_proxy.txt")
         combo_file_path = file_path.replace(".txt", "_combo.txt")
