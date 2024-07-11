@@ -1,4 +1,5 @@
 import requests
+import json
 
 class ProxyScraper:
     def __init__(self, method):
@@ -20,18 +21,32 @@ class ProxyScraper:
         except requests.exceptions.RequestException as e:
             return [e]
     
-    def all_apis(self, timeout, protocol, ssl):
-        apis = [f'https://api.proxyscrape.com/v2/?request=displayproxies&protocol={protocol}&timeout={timeout}&country=all&ssl={ssl}&anonymity=all', "https://gimmeproxy.com/api/getProxy", "https://proxylist.geonode.com/api/proxy-list?limit=500&page=1&sort_by=lastChecked&sort_type=desc"]
+    def all_apis(self, anon: str, protocol: str, speed: int, limit: str):
+        apis = [f"https://www.proxy-list.download/api/v1/get?type={protocol}&anon={anon}",f"https://proxylist.geonode.com/api/proxy-list?anonymityLevel={anon}&protocols={protocol}&speed={speed}&limit={limit}&page=1&sort_by=lastChecked&sort_type=desc"]
+        # proxy-list.download -> Text Output
+        # proxylist.geonode.com -> json output
         proxies = []
-        for api in apis:
-            resp = request.get(api)
-            if resp.headers['Content-Type'] == 'application/json':
-                r = resp.json()
-                proxies.expand([r["protocol"], f"{r["ip"]}:{r["port"]}"])
+        if speed is None:
+            speed = "fast"
+        if anon is None:
+            anon = "elite"
+        if limit is None:
+            limit = 500
 
-    def method(self):
-        match self.method:
-            case "All":
-                self.all_apis()
-            case "ProxyScrape":
-                self.proxy_scrape()
+        for api in apis:
+            try:
+                resp = requests.get(api)
+                if 'application/json' in resp.headers['Content-Type'].lower():
+                    res = resp.json()
+                    for info in res['data']: # There are many more types of info you can Extract. I will write it in the README.
+                        ip = info['ip']
+                        port = info['port']
+                        proxies.append(f"{ip}:{port}")
+                else:
+                    r = resp.text
+                    proxies.extend(r.split("\n"))
+                    pass
+                print(proxies)
+            except requests.exceptions.RequestException as e:
+                print(f"Failed to Obtain Proxy: {e}")
+        return proxies
