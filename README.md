@@ -136,5 +136,9 @@ print(f"Working Proxies: {working_proxies}")
 print(f"Failed Proxies: {failed_proxies}")
 print(f"Errored Proxies: {errored_proxies}")
 ```
+
+### How to add Fonts:
+just place them in the `Fonts` Folder. `.ttf` and `.otf` Fonts are Supported.
+
 ### Known Bugs:
-- Themes cannot be Saved at the Moment.
+- Themes cannot be Saved at the Moment
