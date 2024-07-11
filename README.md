@@ -142,3 +142,4 @@ just place them in the `Fonts` Folder. `.ttf` and `.otf` Fonts are Supported.
 
 ### Known Bugs:
 - Themes cannot be Saved at the Moment
+- Cloudflare.
