@@ -22,9 +22,6 @@ class ProxyScraper:
             return [e]
     
     def all_apis(self, anon: str, protocol: str, speed: int, limit: str):
-        apis = [f"https://www.proxy-list.download/api/v1/get?type={protocol}&anon={anon}",f"https://proxylist.geonode.com/api/proxy-list?anonymityLevel={anon}&protocols={protocol}&speed={speed}&limit={limit}&page=1&sort_by=lastChecked&sort_type=desc"]
-        # proxy-list.download -> Text Output
-        # proxylist.geonode.com -> json output
         proxies = []
         if speed is None:
             speed = "fast"
@@ -32,10 +29,16 @@ class ProxyScraper:
             anon = "elite"
         if limit is None:
             limit = 500
+        if protocol is None:
+            protocol = "html"
+        apis = [f"https://www.proxy-list.download/api/v1/get?type={protocol}&anon={anon}",f"https://proxylist.geonode.com/api/proxy-list?anonymityLevel={anon}&protocols={protocol}&speed={speed}&limit={limit}&page=1&sort_by=lastChecked&sort_type=desc"]
+        # proxy-list.download -> Text Output
+        # proxylist.geonode.com -> json output
 
         for api in apis:
             try:
                 resp = requests.get(api)
+
                 if 'application/json' in resp.headers['Content-Type'].lower():
                     res = resp.json()
                     for info in res['data']: # There are many more types of info you can Extract. I will write it in the README.

@@ -47,6 +47,9 @@ def save_callback(sender, app_data):
 def callback_scrape(sender, app_data):
     dpg.configure_item("proxy_list", items=[])
     method = dpg.get_value('proxyscrape_lb')
+    limit = dpg.get_value('limit_inp')
+    speed = dpg.get_value('speed_lb')
+    anon = dpg.get_value('anon_tb')
     timeout = dpg.get_value('timeout_inp_int')
     prots = dpg.get_value('protocols_inp_txt')
     ssl = dpg.get_value('ssl_bool')
@@ -56,7 +59,7 @@ def callback_scrape(sender, app_data):
         dpg.configure_item("proxy_list", items=proxy_list)
         dpg.configure_item("proxy_list", label=f"Proxies: {len(proxy_list)}")
     if method == "All":
-        proxy_list = ps.all_apis("http", prots, "fast", 500)
+        proxy_list = ps.all_apis(anon, prots, speed, limit)
         dpg.configure_item("proxy_list", items=proxy_list)
         dpg.configure_item("proxy_list", label=f"Proxies: {len(proxy_list)}")
 
@@ -95,7 +98,10 @@ def main():
     
     with dpg.window(label="Proxy Scraper", width=600, height=300, no_resize=False, show=False, tag="proxy_scrape_window_id"):
         dpg.add_listbox(items=["Proxyscrape", "All"], label="Method", tag="proxyscrape_lb", width=150, num_items=2)
+        dpg.add_listbox(items=["elite", "anonymous", "transparent"], label="Anonymity", width=150, tag="anon_tb")
+        dpg.add_listbox(items=["fast", "medium", "slow"], label="Speed", width=150, tag="speed_lb")
         dpg.add_listbox(items=[], label="Proxies", tag="proxy_list", pos=[250, 40], width=150, num_items=10)
+        dpg.add_input_int(label="Limit", tag="limit_inp", default_value=500, min_value=100, max_value=1000, width=100)
         dpg.add_checkbox(label="SSL", tag="ssl_bool", pos=[200, 150])
         dpg.add_spacer()
         dpg.add_listbox(label="Protocols", tag="protocols_inp_txt", items=["http", "socks4", "socks5"], width=150)
