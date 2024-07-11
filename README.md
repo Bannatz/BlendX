@@ -137,5 +137,4 @@ print(f"Failed Proxies: {failed_proxies}")
 print(f"Errored Proxies: {errored_proxies}")
 ```
 ### Known Bugs:
-- Cannot Save Combos or Proxys -> Save Function is kinda buggy at the Moment. I try to fix it Today.
 - Themes cannot be Saved at the Moment.
